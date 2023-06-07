@@ -12,15 +12,21 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Spatie\Permission\Models\Role;
 
 class RegisteredUserController extends Controller
 {
     /**
      * Display the registration view.
      */
-    public function create(): View
+    public function create(Request $request): View
     {
-        return view('auth.register');
+        return view('auth.register',[
+            "user" => ($request->id != "" ? User::find($request->id) : []),
+            "roles" => Role::all(),
+            "rolenames" =>  ($request->id != "" ? $this->getRoleNames($request->id) : []),
+            "users" => User::all(),
+        ]);
     }
 
     /**

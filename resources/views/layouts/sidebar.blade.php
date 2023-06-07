@@ -15,12 +15,7 @@
             <ul class="menu-list flex-grow-1 mt-3">
                 <li class="collapsed">
                     <a class="m-link active" data-bs-toggle="collapse" data-bs-target="#dashboard-Components" href="#">
-                        <i class="icofont-home fs-5"></i> <span>Dashboard</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
-                    <!-- Menu: Sub menu ul -->
-                    <ul class="sub-menu collapse show" id="dashboard-Components">
-                        <li><a class="ms-link active" href="index.html"> <span>Hr Dashboard</span></a></li>
-                        <li><a class="ms-link" href="project-dashboard.html"> <span>Project Dashboard</span></a></li>
-                    </ul>
+                        <i class="icofont-home fs-5"></i> <span>Dashboard</span> <span class=" ms-auto text-end fs-5"></span></a>
                 </li>
                 <li  class="collapsed">
                     <a class="m-link"  data-bs-toggle="collapse" data-bs-target="#project-Components" href="#">

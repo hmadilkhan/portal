@@ -277,5 +277,10 @@
         </div>
     </div><!-- Row End -->
 </div>
-
+<!-- Jquery Core Js -->
+<script src="assets/bundles/libscripts.bundle.js"></script>
+<!-- Plugin Js-->
+<script src="assets/bundles/apexcharts.bundle.js"></script>
+<script src="page/hr.js"></script>
+<script src="page/index.js"></script>
 @endsection

@@ -18,6 +18,7 @@ $(function() {
                 { targets: [-1, -3], className: 'dt-body-right' }
             ]
         });
+        
     });
 
     // Timeline
