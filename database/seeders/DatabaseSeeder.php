@@ -15,12 +15,12 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Super Admin ',
-        //     'email' => 'admin@example.com',
-        //     'username' => 'hmadilkhan',
-        //     'password' => Hash::make("1234"),
-        // ]);
+        \App\Models\User::factory()->create([
+            'name' => 'Super Admin ',
+            'email' => 'admin@example.com',
+            'username' => 'hmadilkhan',
+            'password' => Hash::make("1234"),
+        ]);
 
         \Spatie\Permission\Models\Role::create([
             'name' => 'Super Admin',

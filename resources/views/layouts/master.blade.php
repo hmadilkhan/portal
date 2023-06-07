@@ -8,10 +8,10 @@
     <title>Solen Energy Construction - CRM</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Favicon-->
     <!-- plugin css file  -->
-    <link rel="stylesheet" href="assets/plugin/datatables/responsive.dataTables.min.css">
-    <link rel="stylesheet" href="assets/plugin/datatables/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="{{asset('assets/plugin/datatables/responsive.dataTables.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/plugin/datatables/dataTables.bootstrap5.min.css')}}">
     <!-- project css file  -->
-    <link rel="stylesheet" href="assets/css/my-task.style.min.css">
+    <link rel="stylesheet" href="{{asset('assets/css/my-task.style.min.css')}}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
     
 </head>
@@ -36,15 +36,15 @@
 
 
 
+
+    <script src="assets/bundles/libscripts.bundle.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script><!-- jQuery base library needed -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script> 
-
-    <!-- <script src="assets/bundles/libscripts.bundle.js"></script> -->
-    <script src="assets/bundles/dataTables.bundle.js"></script>
+    
+    <script src="{{asset('assets/bundles/dataTables.bundle.js')}}"></script>
 
     <!-- Jquery Page Js -->
-    <script src="page/template.js"></script>
-    
+    <script src="{{asset('page/template.js')}}"></script>
     
     <script type="text/javascript">
         $(document).ready(function() {
@@ -59,6 +59,7 @@
             ]
         });
     </script>
+    @yield("scripts")
 </body>
 
 </html>

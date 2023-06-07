@@ -1,17 +1,9 @@
-@extends('layouts.master')
+@extends("layouts.master")
 @section('title', 'Users')
 @section('content')
-
-
 <div class="card card-info">
     <div class="card-header">
         <h5 class="card-title">Create New User</h5>
-        <!-- <h4 class="card-title w-100"> -->
-            <!-- <a class="d-block w-100" data-toggle="collapse" id="clickDemo" style="cursor: pointer">
-            Create New User
-            </a> -->
-
-        <!-- </h4> -->
     </div>
     <div class="card-body">
         <!-- ADD NEW PRODUCT PART START -->
@@ -140,59 +132,4 @@
         </table>
     </div>
 </div>
-@section('scripts')
-<script>
-    $("#clickDemo").click(function() {
-        $("#collapseOne").fadeToggle();
-    })
-
-    function deleteUser(userId) {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: "{{ route('delete.user') }}",
-                    method: "POST",
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        id: userId,
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.status == 200) {
-                            Swal.fire(
-                                'Deleted!',
-                                'User has been deleted.',
-                                'success'
-                            )
-                            location.reload();
-                        }
-                    },
-                    error: function(error) {
-                        Swal.fire(
-                            'Error!',
-                            'Some error occurred :)',
-                            'error'
-                        )
-                    }
-                });
-            }
-            if (result.dismiss) {
-                Swal.fire(
-                    'Cancelled!',
-                    'User is safe :)',
-                    'error'
-                )
-            }
-        })
-    }
-</script>
-@endsection
 @endsection
