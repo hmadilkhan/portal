@@ -14,9 +14,9 @@
                 <input type="hidden" name="id" value="{{ !empty($username) ? $username->id : '' }}">
                 <div class="row mt-2 ">
                     <div class="col-sm-4">
-                        <div class="form-group">
+                        <!-- <div class="form-group"> -->
                             <label>Users</label>
-                            <select id="user" name="user" class="form-control select2bs4 @error('role') is-invalid @enderror"
+                            <select id="user" name="user" class="form-control select2 @error('role') is-invalid @enderror"
                                 style="width: 100%;">
                                 <option value="">Select User</option>
                                 @foreach ($users as $user)
@@ -32,13 +32,13 @@
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
-                        </div>
+                        <!-- </div> -->
                     </div>
                     <div class="col-sm-4">
-                        <div class="form-group">
+                        <!-- <div class="form-group"> -->
                             <label>Permissions</label>
                             <select id="permission" name="permission[]" multiple
-                                class="form-control select2bs4 @error('permission') is-invalid @enderror"
+                                class="form-control select2 @error('permission') is-invalid @enderror"
                                 style="width: 100%;">
                                 <option value="">Select Permission</option>
                                 @foreach ($permissions as $permission)
@@ -54,18 +54,18 @@
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
-                        </div>
+                        <!-- </div> -->
                     </div>
-                    <div class="col-4 mt-2">
-                        <label></label>
-                        <div class="form-group ">
-                            <button type="button" class="btn btn-danger  ml-2"><i class="fas fa-ban"></i>
+                    <div class="col-4 mt-4">
+                        <!-- <label></label> -->
+                        <!-- <div class="form-group "> -->
+                            <button type="submit" name="buttonstatus" class="btn btn-primary " value="save"><i
+                                    class="icofont-save"></i> Save
+                            </button>
+                            <button type="button" class="btn btn-danger text-white ml-2"><i class="icofont-ban"></i>
                                 Cancel
                             </button>
-                            <button type="submit" name="buttonstatus" class="btn btn-success " value="save"><i
-                                    class="fas fa-credit-card"></i> Save
-                            </button>
-                        </div>
+                        <!-- </div> -->
                     </div>
                 </div>
             </form>
@@ -76,7 +76,7 @@
             <h4 class="card-title">Users List</h3>
         </div>
         <div class="card-body">
-            <table id="example1" class="table table-bordered table-striped">
+            <table id="example1" class="table table-bordered table-striped datatable">
                 <thead>
                     <tr>
                         <th>No.</th>
@@ -98,10 +98,10 @@
                             <td class="text-center">
                                 <a style="cursor: pointer;" data-toggle="tooltip" title="Edit"
                                     href="{{ url('user-permission') . '/' . $userpermission->id }}">
-                                    <i class="fas fa-edit text-warning"></i></a>
+                                    <i class="icofont-pencil text-warning"></i></a>
                                 <a style="cursor: pointer;" data-toggle="tooltip" title="Delete" class="ml-2"
                                     onclick="deleteUserPermission('{{ $userpermission->id }}')">
-                                    <i class="fas fa-trash text-danger"></i></a>
+                                    <i class="icofont-trash text-danger"></i></a>
                             </td>
                         </tr>
                     @endforeach

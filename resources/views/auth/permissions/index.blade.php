@@ -14,7 +14,7 @@
                 <input type="hidden" name="id" value="{{ !empty($permission) ? $permission->id : '' }}" />
                 <div class="row mt-2 ">
                     <div class="col-sm-6">
-                        <div class="form-group">
+                        <!-- <div class="form-group"> -->
                             <label>Permission Name</label>
                             <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name"
                                 placeholder="Enter Permission Name"
@@ -24,18 +24,18 @@
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
-                        </div>
+                        <!-- </div> -->
                     </div>
-                    <div class="col-6 mt-2">
-                        <label></label>
-                        <div class="form-group ">
-                            <button type="submit" class="btn btn-success " value="save"><i class="fas fa-credit-card"></i>
+                    <div class="col-6 mt-4">
+                        <!-- <label></label> -->
+                        <!-- <div class="form-group "> -->
+                            <button type="submit" class="btn btn-primary " value="save"><i class="icofont-save"></i>
                                 Save
                             </button>
-                            <button type="button" class="btn btn-danger  ml-2"><i class="fas fa-ban"></i>
+                            <button type="button" class="btn btn-danger text-white ml-2"><i class="icofont-ban"></i>
                                 Cancel
                             </button>
-                        </div>
+                        <!-- </div> -->
                     </div>
                 </div>
             </form>
@@ -46,7 +46,7 @@
             <h4 class="card-title">Permissions List</h3>
         </div>
         <div class="card-body">
-            <table id="example1" class="table table-bordered table-striped">
+            <table id="example1" class="table table-bordered table- datatable">
                 <thead>
                     <tr>
                         <th>No.</th>
@@ -62,10 +62,10 @@
                             <td class="text-center">
                                 <a style="cursor: pointer;" data-toggle="tooltip" title="Edit"
                                     href="{{ url('permission') . '/' . $permission->id }}">
-                                    <i class="fas fa-edit text-warning"></i></a>
+                                    <i class="icofont-pencil text-warning"></i></a>
                                 <a style="cursor: pointer;" data-toggle="tooltip" title="Delete" class="ml-2"
                                     onclick="deletePermission('{{ $permission->id }}')">
-                                    <i class="fas fa-trash text-danger"></i></a>
+                                    <i class="icofont-trash text-danger"></i></a>
                             </td>
                         </tr>
                     @endforeach

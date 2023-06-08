@@ -9,6 +9,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
@@ -21,6 +22,7 @@ class RegisteredUserController extends Controller
      */
     public function create(Request $request): View
     {
+
         return view('auth.register',[
             "user" => ($request->id != "" ? User::find($request->id) : []),
             "roles" => Role::all(),
@@ -29,12 +31,22 @@ class RegisteredUserController extends Controller
         ]);
     }
 
+    public function getRoleNames($id)
+    {
+        if ($id) {
+            $user = User::find($id);
+            return $user->getRoleNames();
+        }else{
+            return [];
+        }
+    }
+
     /**
      * Handle an incoming registration request.
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -46,12 +58,36 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'username' => $request->username,
         ]);
+        $user->assignRole($request->role);
 
         event(new Registered($user));
+        return redirect()->back();
+    }
 
-        Auth::login($user);
+    protected function update(Request $request)
+    {
+        $user = User::where("id", $request->id)->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
+        $user = User::findOrFail($request->id);
+        $user->syncRoles($request->role);
+        return redirect()->route("get.register");
+    }
 
-        return redirect(RouteServiceProvider::HOME);
+    public function delete(Request $request)
+    {
+        $user = User::findOrFail($request->id);
+        if ($user) {
+            DB::transaction(function () use ($user) {
+                $user->syncPermissions([]);
+                $user->delete();
+            });
+            return response()->json(["status" => 200]);
+        } else {
+            return response()->json(["status" => 500]);
+        }
     }
 }

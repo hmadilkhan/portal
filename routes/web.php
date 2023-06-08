@@ -26,7 +26,7 @@ Route::middleware('auth')->group(function () {
     /* ADMIN ROUTES */
     Route::group(['middleware' => ['role:Super Admin']], function () {
         Route::get('register/{id?}', [App\Http\Controllers\Auth\RegisteredUserController::class, 'create'])->name('get.register');
-        Route::post('register', [App\Http\Controllers\Auth\RegisteredUserController::class, 'register'])->name("register");
+        Route::post('store-user', [App\Http\Controllers\Auth\RegisteredUserController::class, 'store'])->name("store.register");
         Route::post('update-user', [App\Http\Controllers\Auth\RegisteredUserController::class, 'update'])->name("update.user");
         Route::post('delete-user', [App\Http\Controllers\Auth\RegisteredUserController::class, 'delete'])->name("delete.user");
 

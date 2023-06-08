@@ -18,15 +18,15 @@
                         <i class="icofont-home fs-5"></i> <span>Dashboard</span> <span class=" ms-auto text-end fs-5"></span></a>
                 </li>
                 <li  class="collapsed">
-                    <a class="m-link {{ (Route::currentRouteName() == 'register' or Route::currentRouteName() == 'role' or Route::currentRouteName() == 'permission' or Route::currentRouteName() == 'role.permission' or Route::currentRouteName() == 'user.permission') ? 'menu-open menu-is-opening' : '' }}"  data-bs-toggle="collapse" data-bs-target="#project-Components" href="#">
+                    <a class="m-link {{ (Route::currentRouteName() == 'get.register' or Route::currentRouteName() == 'role' or Route::currentRouteName() == 'permission' or Route::currentRouteName() == 'role.permission' or Route::currentRouteName() == 'user.permission') ? 'show' : '' }}"  data-bs-toggle="collapse" data-bs-target="#project-Components" href="#">
                         <i class="icofont-briefcase"></i><span>User Management</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
                     <!-- Menu: Sub menu ul -->
-                    <ul class="sub-menu collapse" id="project-Components">
-                        <li><a class="ms-link {{ Route::currentRouteName() == 'register' ? 'active' : '' }}" href="{{route('get.register')}}"><span>Register</span></a></li>
-                        <li><a class="ms-link" href="{{ route('role') }}"><span>Roles</span></a></li>
-                        <li><a class="ms-link" href="{{ route('permission') }}"><span>Permissions</span></a></li>
-                        <li><a class="ms-link" href="{{ route('role.permission') }}"><span>Roles Permissions</span></a></li>
-                        <li><a class="ms-link" href="{{ route('user.permission') }}"><span>Users Permissions</span></a></li>
+                    <ul class="sub-menu collapse {{ (Route::currentRouteName() == 'get.register' or Route::currentRouteName() == 'role' or Route::currentRouteName() == 'permission' or Route::currentRouteName() == 'role.permission' or Route::currentRouteName() == 'user.permission') ? 'show' : '' }}" id="project-Components">
+                        <li><a class="ms-link {{ Route::currentRouteName() == 'get.register' ? 'active' : '' }}" href="{{route('get.register')}}"><span>Register</span></a></li>
+                        <li><a class="ms-link {{ Route::currentRouteName() == 'role' ? 'active' : '' }}"" href="{{ route('role') }}"><span>Roles</span></a></li>
+                        <li><a class="ms-link {{ Route::currentRouteName() == 'permission' ? 'active' : '' }}" href="{{ route('permission') }}"><span>Permissions</span></a></li>
+                        <li><a class="ms-link {{ Route::currentRouteName() == 'role.permission' ? 'active' : '' }}" href="{{ route('role.permission') }}"><span>Roles Permissions</span></a></li>
+                        <li><a class="ms-link {{ Route::currentRouteName() == 'user.permission' ? 'active' : '' }}" href="{{ route('user.permission') }}"><span>Users Permissions</span></a></li>
                     </ul>
                 </li>
                 
@@ -39,12 +39,6 @@
                     <div class="form-check form-switch theme-switch">
                         <input class="form-check-input" type="checkbox" id="theme-switch">
                         <label class="form-check-label" for="theme-switch">Enable Dark Mode!</label>
-                    </div>
-                </li>
-                <li class="d-flex align-items-center justify-content-center">
-                    <div class="form-check form-switch theme-rtl">
-                        <input class="form-check-input" type="checkbox" id="theme-rtl">
-                        <label class="form-check-label" for="theme-rtl">Enable RTL Mode!</label>
                     </div>
                 </li>
             </ul>

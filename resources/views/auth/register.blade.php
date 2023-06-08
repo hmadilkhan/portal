@@ -7,7 +7,7 @@
     </div>
     <div class="card-body">
         <!-- ADD NEW PRODUCT PART START -->
-        <form method="POST" action="{{ route('register') }}">
+        <form method="POST" action="{{ !empty($user) ? route('update.user') :  route('store.register') }}">
             @csrf
             <input type="hidden" name="id" value="{{ !empty($user) ? $user->id : '' }}" />
             <div class="row g-3  mb-3 align-items-center">
