@@ -13,36 +13,36 @@
             <div class="row g-3  mb-3 align-items-center">
                 <div class="col-sm-4 ">
                     <!-- <div class="form-group"> -->
-                        <label>Full Name</label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Enter Complete Name" value="{{ !empty($user) ? $user->name : old('name') }}">
-                        @error('name')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
+                    <label>Full Name</label>
+                    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Enter Complete Name" value="{{ !empty($user) ? $user->name : old('name') }}">
+                    @error('name')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                     <!-- </div> -->
                 </div>
                 <div class="col-sm-4">
                     <!-- <div class="form-group"> -->
-                        <label>Email</label>
-                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="Enter Email" value="{{ !empty($user) ? $user->email : old('email') }}">
-                        @error('email')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
+                    <label>Email</label>
+                    <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="Enter Email" value="{{ !empty($user) ? $user->email : old('email') }}">
+                    @error('email')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                     <!-- </div> -->
                 </div>
 
                 <div class="col-sm-4">
                     <!-- <div class="form-group "> -->
-                        <label>Username</label>
-                        <input {{ !empty($user) ? 'disabled' : '' }} type="text" class="form-control @error('username') is-invalid @enderror" id="username" name="username" placeholder="Enter Username" value="{{ !empty($user) ? $user->username : old('username') }}">
-                        @error('username')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
+                    <label>Username</label>
+                    <input {{ !empty($user) ? 'disabled' : '' }} type="text" class="form-control @error('username') is-invalid @enderror" id="username" name="username" placeholder="Enter Username" value="{{ !empty($user) ? $user->username : old('username') }}">
+                    @error('username')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                     <!-- </div> -->
                 </div>
 
@@ -63,6 +63,31 @@
                         <input {{ !empty($user) ? 'disabled' : '' }} type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Enter Confirm Password">
                     </div>
                 </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Type</label>
+                        <select id="type" name="type" class="form-control select2 @error('type') is-invalid @enderror" style="width: 100%;">
+                            <option value="">Select User Type</option>
+                            @foreach ($types as $typeValue)
+                            @if (!empty($user))
+                            <option value="{{ $typeValue->id }}" {{ $user->user_type_id == $typeValue->id ? 'selected' : '' }}>
+                                {{ $typeValue->name }}
+                            </option>
+                            @else
+                            <option value="{{ $typeValue->id }}" {{ old('type') == $typeValue->id ? 'selected' : '' }}>
+                                {{ $typeValue->name }}
+                            </option>
+                            @endif
+                            @endforeach
+                        </select>
+                        @error('type')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                </div>
+
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label>Roles</label>
@@ -109,6 +134,7 @@
                     <th>No.</th>
                     <th>Full Name</th>
                     <th>Email</th>
+                    <th>Type</th>
                     <th>Roles</th>
                     <th>Actions</th>
                 </tr>
@@ -119,6 +145,7 @@
                     <td>{{ ++$key }}</td>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
+                    <td>{{ $user->type->name }}</td>
                     <td>{{ implode(",",$user->getRoleNames()->toArray()) }}</td>
                     <td class="text-center">
                         <a style="cursor: pointer;" data-toggle="tooltip" title="Edit" href="{{ url('register') . '/' . $user->id }}">

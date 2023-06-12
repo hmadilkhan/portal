@@ -15,23 +15,149 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        \App\Models\User::factory()->create([
-            'name' => 'Super Admin ',
-            'email' => 'admin@example.com',
-            'username' => 'hmadilkhan',
-            'password' => Hash::make("1234"),
+        // \App\Models\UserType::create([
+        //     "name" => "User"
+        // ]);
+        // \App\Models\UserType::create([
+        //     "name" => "Employee"
+        // ]);
+        // \App\Models\UserType::create([
+        //     "name" => "Sales Person"
+        // ]);
+
+        // \App\Models\User::factory()->create([
+        //     'name' => 'Super Admin ',
+        //     'email' => 'admin@example.com',
+        //     'username' => 'hmadilkhan',
+        //     'user_type_id' => 1,
+        //     'password' => Hash::make("1234"),
+        // ]);
+
+        // ROLES
+
+        // \Spatie\Permission\Models\Role::create([
+        //     'name' => 'Super Admin',
+        // ]);
+
+        // \Spatie\Permission\Models\Role::create([
+        //     'name' => 'Admin',
+        // ]);
+
+        // \Spatie\Permission\Models\Role::create([
+        //     'name' => 'Sales Person',
+        // ]);
+
+        // \Spatie\Permission\Models\Role::create([
+        //     'name' => 'Manager',
+        // ]);
+
+        // \Spatie\Permission\Models\Role::create([
+        //     'name' => 'Employee',
+        // ]);
+
+        // DEPARTMENT SEEDER
+
+        // \App\Models\Department::create([
+        //     "name" => "Deal Review"
+        // ]);
+        // \App\Models\Department::create([
+        //     "name" => "Site Survey"
+        // ]);
+        // \App\Models\Department::create([
+        //     "name" => "Engineering"
+        // ]);
+        // \App\Models\Department::create([
+        //     "name" => "Permitting"
+        // ]);
+        // \App\Models\Department::create([
+        //     "name" => "Installation"
+        // ]);
+        // \App\Models\Department::create([
+        //     "name" => "Inspection"
+        // ]);
+        // \App\Models\Department::create([
+        //     "name" => "PTO"
+        // ]);
+        // \App\Models\Department::create([
+        //     "name" => "Certificate of Completion"
+        // ]);
+
+        // SUB DEPARTMENT SEEDER
+
+        \App\Models\SubDepartment::create([
+            "name" => "New Deals",
+            "department_id" => 1,
+        ]);
+        \App\Models\SubDepartment::create([
+            "name" => "Sales Holds From Engineering",
+            "department_id" => 1,
         ]);
 
-        \Spatie\Permission\Models\Role::create([
-            'name' => 'Super Admin',
+        \App\Models\SubDepartment::create([
+            "name" => "Site Survey News",
+            "department_id" => 2,
+        ]);
+        \App\Models\SubDepartment::create([
+            "name" => "Site Survey Rework",
+            "department_id" => 2,
         ]);
 
-        \Spatie\Permission\Models\Role::create([
-            'name' => 'Admin',
+
+        \App\Models\SubDepartment::create([
+            "name" => "Engineering New",
+            "department_id" => 3,
+        ]);
+        \App\Models\SubDepartment::create([
+            "name" => "Engineering Rework",
+            "department_id" => 3,
+        ]);
+        \App\Models\SubDepartment::create([
+            "name" => "Engineering Holds",
+            "department_id" => 3,
+        ]);
+        \App\Models\SubDepartment::create([
+            "name" => "Engineering Sales Holds",
+            "department_id" => 3,
         ]);
 
-        \Spatie\Permission\Models\Role::create([
-            'name' => 'Sales Person ',
+        \App\Models\SubDepartment::create([
+            "name" => "Permitting New",
+            "department_id" => 4,
+        ]);
+        \App\Models\SubDepartment::create([
+            "name" => "Permitting Rework",
+            "department_id" => 4,
+        ]);
+        \App\Models\SubDepartment::create([
+            "name" => "Permitting Holds",
+            "department_id" => 4,
+        ]);
+
+
+        \App\Models\SubDepartment::create([
+            "name" => "Installation New",
+            "department_id" => 5,
+        ]);
+        \App\Models\SubDepartment::create([
+            "name" => "Installation Pending MPU",
+            "department_id" => 5,
+        ]);
+        \App\Models\SubDepartment::create([
+            "name" => "Installation Pending Roof",
+            "department_id" => 5,
+        ]);
+        \App\Models\SubDepartment::create([
+            "name" => "Installation Rework",
+            "department_id" => 5,
+        ]);
+
+        \App\Models\SubDepartment::create([
+            "name" => "Inspection New",
+            "department_id" => 6,
+        ]);
+        \App\Models\SubDepartment::create([
+            "name" => "Inspection Rework",
+            "department_id" => 6,
         ]);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -50,6 +51,15 @@ Route::middleware('auth')->group(function () {
         Route::post('update-user-permission', [App\Http\Controllers\PermissionController::class, 'updateUserPermission'])->name('update.user.permission');
         Route::post('delete-user-permission', [App\Http\Controllers\PermissionController::class, 'deleteUserPermission'])->name('delete.user.permission');
     });
+
+    Route::resource('employees', EmployeeController::class);
+
+    // Route::controller(EmployeeController::class)->group(function(){
+    //     Route::get('employees', 'index')->name('employees.index');
+    //     Route::get('employees', 'create')->name('employees.create');
+    //     Route::post('employees', 'store')->name('employees.store');
+    //     Route::put('employees/{employee}', 'update')->name('employees.update');
+    // });
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\UserType;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -22,12 +23,12 @@ class RegisteredUserController extends Controller
      */
     public function create(Request $request): View
     {
-
         return view('auth.register',[
             "user" => ($request->id != "" ? User::find($request->id) : []),
             "roles" => Role::all(),
             "rolenames" =>  ($request->id != "" ? $this->getRoleNames($request->id) : []),
-            "users" => User::all(),
+            "users" => User::with("type")->get(),
+            "types" => UserType::all(),
         ]);
     }
 
@@ -59,6 +60,7 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'username' => $request->username,
+            'user_type_id' => $request->user_type_id,
         ]);
         $user->assignRole($request->role);
 
@@ -71,6 +73,7 @@ class RegisteredUserController extends Controller
         $user = User::where("id", $request->id)->update([
             'name' => $request->name,
             'email' => $request->email,
+            'user_type_id' => $request->user_type_id,
         ]);
         $user = User::findOrFail($request->id);
         $user->syncRoles($request->role);
