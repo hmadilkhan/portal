@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -53,13 +54,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::resource('employees', EmployeeController::class);
-
-    // Route::controller(EmployeeController::class)->group(function(){
-    //     Route::get('employees', 'index')->name('employees.index');
-    //     Route::get('employees', 'create')->name('employees.create');
-    //     Route::post('employees', 'store')->name('employees.store');
-    //     Route::put('employees/{employee}', 'update')->name('employees.update');
-    // });
+    Route::resource('customers', CustomerController::class);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

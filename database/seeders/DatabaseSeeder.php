@@ -15,72 +15,72 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        // \App\Models\UserType::create([
-        //     "name" => "User"
-        // ]);
-        // \App\Models\UserType::create([
-        //     "name" => "Employee"
-        // ]);
-        // \App\Models\UserType::create([
-        //     "name" => "Sales Person"
-        // ]);
+        \App\Models\UserType::create([
+            "name" => "User"
+        ]);
+        \App\Models\UserType::create([
+            "name" => "Employee"
+        ]);
+        \App\Models\UserType::create([
+            "name" => "Sales Person"
+        ]);
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Super Admin ',
-        //     'email' => 'admin@example.com',
-        //     'username' => 'hmadilkhan',
-        //     'user_type_id' => 1,
-        //     'password' => Hash::make("1234"),
-        // ]);
+        \App\Models\User::factory()->create([
+            'name' => 'Super Admin ',
+            'email' => 'admin@example.com',
+            'username' => 'hmadilkhan',
+            'user_type_id' => 1,
+            'password' => Hash::make("1234"),
+        ]);
 
         // ROLES
 
-        // \Spatie\Permission\Models\Role::create([
-        //     'name' => 'Super Admin',
-        // ]);
+        \Spatie\Permission\Models\Role::create([
+            'name' => 'Super Admin',
+        ]);
 
-        // \Spatie\Permission\Models\Role::create([
-        //     'name' => 'Admin',
-        // ]);
+        \Spatie\Permission\Models\Role::create([
+            'name' => 'Admin',
+        ]);
 
-        // \Spatie\Permission\Models\Role::create([
-        //     'name' => 'Sales Person',
-        // ]);
+        \Spatie\Permission\Models\Role::create([
+            'name' => 'Sales Person',
+        ]);
 
-        // \Spatie\Permission\Models\Role::create([
-        //     'name' => 'Manager',
-        // ]);
+        \Spatie\Permission\Models\Role::create([
+            'name' => 'Manager',
+        ]);
 
-        // \Spatie\Permission\Models\Role::create([
-        //     'name' => 'Employee',
-        // ]);
+        \Spatie\Permission\Models\Role::create([
+            'name' => 'Employee',
+        ]);
 
         // DEPARTMENT SEEDER
 
-        // \App\Models\Department::create([
-        //     "name" => "Deal Review"
-        // ]);
-        // \App\Models\Department::create([
-        //     "name" => "Site Survey"
-        // ]);
-        // \App\Models\Department::create([
-        //     "name" => "Engineering"
-        // ]);
-        // \App\Models\Department::create([
-        //     "name" => "Permitting"
-        // ]);
-        // \App\Models\Department::create([
-        //     "name" => "Installation"
-        // ]);
-        // \App\Models\Department::create([
-        //     "name" => "Inspection"
-        // ]);
-        // \App\Models\Department::create([
-        //     "name" => "PTO"
-        // ]);
-        // \App\Models\Department::create([
-        //     "name" => "Certificate of Completion"
-        // ]);
+        \App\Models\Department::create([
+            "name" => "Deal Review"
+        ]);
+        \App\Models\Department::create([
+            "name" => "Site Survey"
+        ]);
+        \App\Models\Department::create([
+            "name" => "Engineering"
+        ]);
+        \App\Models\Department::create([
+            "name" => "Permitting"
+        ]);
+        \App\Models\Department::create([
+            "name" => "Installation"
+        ]);
+        \App\Models\Department::create([
+            "name" => "Inspection"
+        ]);
+        \App\Models\Department::create([
+            "name" => "PTO"
+        ]);
+        \App\Models\Department::create([
+            "name" => "Certificate of Completion"
+        ]);
 
         // SUB DEPARTMENT SEEDER
 
@@ -158,6 +158,24 @@ class DatabaseSeeder extends Seeder
         \App\Models\SubDepartment::create([
             "name" => "Inspection Rework",
             "department_id" => 6,
+        ]);
+
+        \App\Models\FinanceOption::create([
+            "name" => "Cash",
+        ]);
+        \App\Models\FinanceOption::create([
+            "name" => "Mosaic Financing",
+        ]);
+        \App\Models\FinanceOption::create([
+            "name" => "Goodleap Financing",
+        ]);
+
+        \App\Models\SalesPartner::create([
+            "name" => "Sales Partner 1",
+        ]);
+
+        \App\Models\SalesPartner::create([
+            "name" => "Sales Partner 2",
         ]);
     }
 }

@@ -14,7 +14,7 @@
 
         <ul class="menu-list flex-grow-1 mt-3">
             <li class="collapsed">
-                <a class="m-link {{ Route::currentRouteName() == 'dashboard' ? 'active' : '' }}" data-bs-toggle="collapse" data-bs-target="#dashboard-Components" href="{{route('dashboard')}}">
+                <a class="m-link {{ Route::currentRouteName() == 'dashboard' ? 'active' : '' }}"  href="{{route('dashboard')}}">
                     <i class="icofont-home fs-5"></i> <span>Dashboard</span> <span class=" ms-auto text-end fs-5"></span></a>
             </li>
             <li class="collapsed">
@@ -38,6 +38,10 @@
                     <li><a class="ms-link Route::currentRouteName() == 'employees.index' ? 'show' : 
                         ''" href="{{route('employees.index')}}"> <span>Employees</span></a></li>
                 </ul>
+            </li>
+            <li class="collapsed">
+                <a class="m-link {{ Route::currentRouteName() == 'customers' ? 'active' : '' }}"  href="{{route('customers.index')}}">
+                    <i class="icofont-user-suited "></i> <span>Customers</span> <span class=" ms-auto text-end fs-5"></span></a>
             </li>
         </ul>
 
