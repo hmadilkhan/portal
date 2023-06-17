@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\CustomerFinance;
 use App\Models\FinanceOption;
 use App\Models\SalesPartner;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
 {
@@ -15,7 +17,7 @@ class CustomerController extends Controller
     public function index()
     {
         return view("customer.index", [
-            "customers" => Customer::all()
+            "customers" => Customer::all(),
         ]);
     }
 
@@ -24,7 +26,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        return view("customer.create",[
+        return view("customer.create", [
             "financeoptions" => FinanceOption::all(),
             "partners" => SalesPartner::all(),
         ]);
@@ -54,9 +56,24 @@ class CustomerController extends Controller
             'dealer_fee' => 'required',
         ]);
         try {
-            //code...
+            DB::beginTransaction();
+            $customer = Customer::create($request->except(["finance_option_id", "contract_amount", "redline_costs", "adders", "commission", "dealer_fee"]));
+            CustomerFinance::create([
+                "customer_id" => $customer->id,
+                "finance_option_id" => $request->finance_option_id,
+                "contract_amount" => $request->contract_amount,
+                "redline_costs" => $request->redline_costs,
+                "adders" => $request->adders,
+                "commission" => $request->commission,
+                "adders" => $request->adders,
+                "dealer_fee" => $request->dealer_fee,
+            ]);
+            DB::commit();
+            return redirect()->route("customers.index");
         } catch (\Throwable $th) {
-            //throw $th;
+            DB::rollBack();
+            return $th->getMessage();
+            return redirect()->route("customers.create");
         }
     }
 
@@ -73,7 +90,11 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        //
+        return view("customer.edit", [
+            "customer" => $customer,
+            "financeoptions" => FinanceOption::all(),
+            "partners" => SalesPartner::all(),
+        ]);
     }
 
     /**
@@ -81,7 +102,16 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $customer->update($request->except(["finance_option_id", "contract_amount", "redline_costs", "adders", "commission", "dealer_fee"]));
+            $customer->finances()->update($request->only(["finance_option_id", "contract_amount", "redline_costs", "adders", "commission", "dealer_fee"]));
+            DB::commit();
+            return redirect()->route("customers.index");
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return $th->getMessage();
+        }
     }
 
     /**

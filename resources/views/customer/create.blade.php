@@ -86,7 +86,14 @@
                     <div class="text-danger message mt-2">{{$message}}</div>
                     @enderror
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-6">
+                    <label for="addnote" class="form-label">Address</label>
+                    <textarea class="form-control" id="address" name="address" rows="3"></textarea>
+                    @error("address")
+                    <div class="text-danger message mt-2">{{$message}}</div>
+                    @enderror
+                </div>
+                <div class="col-md-6">
                     <label for="addnote" class="form-label">Scope of Work</label>
                     <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
                     @error("notes")
@@ -106,7 +113,7 @@
             </div><!-- Row End -->
             <div class="row g-3 mb-3">
                 <div class="col-sm-6 mb-3">
-                    <label for="exampleFormControlInput877" class="form-label">Finance Option</label>
+                    <label for="finance_option_id" class="form-label">Finance Option</label>
                     <label class="form-label">Finance Option</label>
                     <select class="form-select select2" aria-label="Default select Finance Option" id="finance_option_id" name="finance_option_id">
                         <option value="">Select Finance Option</option>

@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('customer_finances', function (Blueprint $table) {
+        Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->integer("customer_id");
-            $table->integer("finance_option_id");
-            $table->float("contract_amount");
-            $table->float("redline_costs");
-            $table->string("adders");
-            $table->float("commission");
-            $table->float("dealer_fee");
+            $table->integer("department_id")->nullable();
+            $table->integer("sub_department_id")->nullable();
+            $table->string("project_name");
+            $table->date("start_date");
+            $table->date("end_date");
+            $table->date("completion_date")->nullable();
+            $table->float("budget")->nullable();
+            $table->longText("description");
             $table->softDeletes();
             $table->timestamps();
         });
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('customer_finances');
+        Schema::dropIfExists('projects');
     }
 };

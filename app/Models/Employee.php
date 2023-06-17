@@ -8,12 +8,39 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Employee extends Model
 {
-    use HasFactory,SoftDeletes;
+   use HasFactory, SoftDeletes;
 
-    protected $guarded = [];
+   protected $guarded = [];
 
-    public function user()
-    {
-       return $this->belongsTo(User::class,'user_id','id');
-    }
-}   
+   public function user()
+   {
+      return $this->belongsTo(User::class);
+   }
+
+   public function department()
+   {
+      return $this->belongsTo(Department::class);
+   }
+
+   public function scopeGetUser($query,$departmentId,$roles)
+   {
+      return $this->where("department_id", $departmentId)
+         // ->with("user","user.roles")
+         ->whereHas("user", function ($query) use ($roles) {
+            $query->whereHas('roles', function ($q) use ($roles) {
+               $q->whereIn('roles.name', $roles);
+            });
+         });
+   }
+
+   public function scopeGetUserWithRoleAndDepartment($query,$departmentId)
+   {
+      return $this->where("department_id", $departmentId)
+         // ->with("user","user.roles")
+         ->whereHas("user", function ($query) {
+            $query->whereHas('roles', function ($q) {
+               $q->whereIn('roles.name', ["Employee"]);
+            });
+         });
+   }
+}

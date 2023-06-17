@@ -36,6 +36,8 @@
                             <th>Full Name</th>
                             <th>Email</th>
                             <th>Department</th>
+                            <th>Username</th>
+                            <th>Role</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -46,7 +48,9 @@
                             <td>{{ $employee->code }}</td>
                             <td>{{ $employee->name }}</td>
                             <td>{{ $employee->email }}</td>
-                            <td>{{ $employee->department_id }}</td>
+                            <td>{{ $employee->department->name }}</td>
+                            <td>{{ $employee->user->username }}</td>
+                            <td>{{ $employee->user->getRoleNames()[0] }}</td>
                             <td class="text-center">
                                 <a style="cursor: pointer;" data-toggle="tooltip" title="Edit" onclick="edit('{{ $employee->id }}')">
                                     <i class="icofont-pencil text-warning fs-4"></i></a>

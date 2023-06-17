@@ -24,6 +24,7 @@ return new class extends Migration
             $table->date("sold_date");
             $table->string("system_size");
             $table->longText("notes");
+            $table->softDeletes();
             $table->timestamps();
         });
     }

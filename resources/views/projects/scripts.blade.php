@@ -1,11 +1,28 @@
 @section("scripts")
 <script type="text/javascript">
     $('.select2').select2();
-    $("#openemployee").click(function() {
-        $("#createemp").modal("show");
+
+    projectList();
+    function projectList() {
+        $.ajax({
+            method: "POST",
+            url: "{{ route('projects.list') }}",
+            data : {"_token": "{{ csrf_token() }}",},
+            success: function(response) {
+                $('#projectlist').empty();
+                $('#projectlist').append(response);
+            },
+            error: function(error) {
+                console.log(error.responseJSON.message);
+            }
+        })
+    }
+
+    $("#openproject").click(function() {
+        $("#createproject").modal("show");
         $.ajax({
             method: "GET",
-            url: "{{ route('employees.create') }}",
+            url: "{{ route('projects.create') }}",
             success: function(response) {
                 $('#empform').empty();
                 $('#empform').append(response);
@@ -17,10 +34,10 @@
     });
 
     function edit(id) {
-        $("#createemp").modal("show");
+        $("#createproject").modal("show");
         $.ajax({
             method: "GET",
-            url: "{{ url('employees') }}"+"/" + id +"/edit",
+            url: "{{ url('projects') }}" + "/" + id + "/edit",
             success: function(response) {
                 $('#empform').empty();
                 $('#empform').append(response);
@@ -57,15 +74,13 @@
             cache: false,
             dataType: 'json',
             success: function(response) {
-                console.log(response)
                 if (response.status == 200) {
                     $("#form")[0].reset();
-                    $("#createemp").modal("hide");
-                    location.reload();
+                    $("#createproject").modal("hide");
+                    projectList();
                 }
             },
             error: function(error) {
-                console.log(error)
                 if (error) {
                     $.each(error.responseJSON.errors, function(index, value) {
                         $("#" + index + "_message").html(value[0])

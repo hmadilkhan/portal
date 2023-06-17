@@ -62,7 +62,7 @@ class EmployeeController extends Controller
                 'user_type_id' => 2, // 2 is for Employee
             ]);
             foreach ($request->roles as $key => $value) {
-                $user->assignRole($value);
+                $user->syncRoles($value);
             }
             Employee::create(
                 array_merge(
@@ -115,7 +115,7 @@ class EmployeeController extends Controller
             ]);
             $user = User::findOrFail($request->user_id);
             foreach ($request->roles as $key => $value) {
-                $user->assignRole($value);
+                $user->syncRoles($value);
             }
             $employee->update(
                 array_merge(

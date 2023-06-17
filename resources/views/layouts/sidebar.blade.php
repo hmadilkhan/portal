@@ -14,14 +14,14 @@
 
         <ul class="menu-list flex-grow-1 mt-3">
             <li class="collapsed">
-                <a class="m-link {{ Route::currentRouteName() == 'dashboard' ? 'active' : '' }}"  href="{{route('dashboard')}}">
+                <a class="m-link {{ Route::currentRouteName() == 'dashboard' ? 'active' : '' }}" href="{{route('dashboard')}}">
                     <i class="icofont-home fs-5"></i> <span>Dashboard</span> <span class=" ms-auto text-end fs-5"></span></a>
             </li>
             <li class="collapsed">
-                <a class="m-link {{ (Route::currentRouteName() == 'get.register' or Route::currentRouteName() == 'role' or Route::currentRouteName() == 'permission' or Route::currentRouteName() == 'role.permission' or Route::currentRouteName() == 'user.permission') ? 'show' : '' }}" data-bs-toggle="collapse" data-bs-target="#project-Components" href="#">
+                <a class="m-link {{ (Route::currentRouteName() == 'get.register' or Route::currentRouteName() == 'role' or Route::currentRouteName() == 'permission' or Route::currentRouteName() == 'role.permission' or Route::currentRouteName() == 'user.permission') ? 'show' : '' }}" data-bs-toggle="collapse" data-bs-target="#user-Components" href="#">
                     <i class="icofont-briefcase"></i><span>User Management</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
                 <!-- Menu: Sub menu ul -->
-                <ul class="sub-menu collapse {{ (Route::currentRouteName() == 'get.register' or Route::currentRouteName() == 'role' or Route::currentRouteName() == 'permission' or Route::currentRouteName() == 'role.permission' or Route::currentRouteName() == 'user.permission') ? 'show' : '' }}" id="project-Components">
+                <ul class="sub-menu collapse {{ (Route::currentRouteName() == 'get.register' or Route::currentRouteName() == 'role' or Route::currentRouteName() == 'permission' or Route::currentRouteName() == 'role.permission' or Route::currentRouteName() == 'user.permission') ? 'show' : '' }}" id="user-Components">
                     <li><a class="ms-link {{ Route::currentRouteName() == 'get.register' ? 'active' : '' }}" href="{{route('get.register')}}"><span>Register</span></a></li>
                     <li><a class="ms-link {{ Route::currentRouteName() == 'role' ? 'active' : '' }}"" href=" {{ route('role') }}"><span>Roles</span></a></li>
                     <li><a class="ms-link {{ Route::currentRouteName() == 'permission' ? 'active' : '' }}" href="{{ route('permission') }}"><span>Permissions</span></a></li>
@@ -31,17 +31,32 @@
             </li>
 
             <li class="collapsed">
-                <a class="m-link active" data-bs-toggle="collapse" data-bs-target="#emp-Components" href="#"><i class="icofont-users-alt-5"></i> <span>Employees</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+                <a class="m-link {{Route::currentRouteName() == 'employees.index' ? 'active' : 
+                        ''}}" href="#" data-bs-toggle="collapse" data-bs-target="#employee-Components">
+                    <i class="icofont-users-alt-5"></i> <span>Employees</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span>
+                </a>
                 <!-- Menu: Sub menu ul -->
                 <ul class="sub-menu collapse {{ (Route::currentRouteName() == 'employees.index' ? 'show' : 
-                        '')}}" id="emp-Components">
-                    <li><a class="ms-link Route::currentRouteName() == 'employees.index' ? 'show' : 
-                        ''" href="{{route('employees.index')}}"> <span>Employees</span></a></li>
+                        '')}}" id="employee-Components">
+                    <li>
+                        <a class="ms-link {{Route::currentRouteName() == 'employees.index' ? 'active' : 
+                        ''}}" href="{{route('employees.index')}}"> <span>Employees</span></a>
+                    </li>
                 </ul>
             </li>
             <li class="collapsed">
-                <a class="m-link {{ Route::currentRouteName() == 'customers' ? 'active' : '' }}"  href="{{route('customers.index')}}">
-                    <i class="icofont-user-suited "></i> <span>Customers</span> <span class=" ms-auto text-end fs-5"></span></a>
+                <a class="m-link {{ (Route::currentRouteName() == 'customers.index' or Route::currentRouteName() == 'customers.create') ? 'active' : '' }}" href="{{route('customers.index')}}">
+                    <i class="icofont-user-suited "></i> <span>Customers </span> <span class=" ms-auto text-end fs-5"></span></a>
+            </li>
+
+            <li class="collapsed">
+                <a class="m-link {{ (Route::currentRouteName() == 'projects.index' or Route::currentRouteName() == 'projects.create' or Route::currentRouteName() == 'projects.edit' ) ? 'show' : '' }}" data-bs-toggle="collapse" data-bs-target="#project-Components" href="#">
+                    <i class="icofont-briefcase"></i><span>Projects</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+                <!-- Menu: Sub menu ul -->
+                <ul class="sub-menu collapse {{ (Route::currentRouteName() == 'projects.index' or Route::currentRouteName() == 'projects.create' or Route::currentRouteName() == 'projects.edit' ) ? 'show' : '' }}" id="project-Components">
+                    <li><a class="ms-link {{ Route::currentRouteName() == 'projects.index' ? 'active' : '' }}" href="{{route('projects.index')}}"><span>Projects</span></a></li>
+                    <li><a class="ms-link {{ Route::currentRouteName() == 'tasks.index' ? 'active' : '' }}"" href=" {{ route('tasks.index') }}"><span>Tasks</span></a></li>
+                </ul>
             </li>
         </ul>
 
