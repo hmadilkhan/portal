@@ -16,6 +16,7 @@ class TaskController extends Controller
      */
     public function index()
     {
+        return auth()->user()->getRoleNames;
         return view("tasks.index",[
             "tasks" => Task::with("project","employee","department","subdepartment")->get(),
         ]);

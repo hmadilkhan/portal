@@ -19,7 +19,7 @@ class Employee extends Model
 
    public function department()
    {
-      return $this->belongsTo(Department::class);
+      return $this->hasMany(EmployeeDepartment::class);
    }
 
    public function scopeGetUser($query,$departmentId,$roles)

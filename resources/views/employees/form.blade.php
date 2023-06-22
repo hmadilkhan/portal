@@ -58,7 +58,7 @@
     <div class="row g-3 mb-3">
         <div class="col">
             <label class="form-label">Department</label>
-            <select class="form-select select2" aria-label="Default select Project Category" id="department_id" name="department_id">
+            <select class="form-select select2" multiple aria-label="Default select Project Category" id="department_id" name="departments[]">
                 @foreach ($departments as $department)
                 <option value="{{ $department->id }}">{{ $department->name }}</option>
                 @endforeach
@@ -67,7 +67,7 @@
         </div>
         <div class="col">
             <label class="form-label">Roles</label>
-            <select class="form-select select2" aria-label="Default select Project Category" id="role" name="roles[]">
+            <select class="form-select select2" aria-label="Default select Project Category" id="role" name="roles">
                 @foreach ($roles as $role)
                 <option value="{{ $role->id }}">
                     {{ $role->name }}

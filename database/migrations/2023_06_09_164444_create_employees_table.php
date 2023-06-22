@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string("code")->unique();
             $table->string("email")->unique();
             $table->string("phone");
-            $table->integer('department_id')->nullable();
             $table->string('image')->nullable();
             $table->date('joined_date')->nullable();
             $table->integer("user_id");

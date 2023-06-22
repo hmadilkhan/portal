@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Department;
 use App\Models\Employee;
+use App\Models\EmployeeDepartment;
 use App\Models\User;
 use App\Traits\MediaTrait;
 use Illuminate\Http\Request;
@@ -20,8 +21,9 @@ class EmployeeController extends Controller
      */
     public function index()
     {
+        return  Employee::with("department","department.department")->get();
         return view("employees.index", [
-            "employees" => Employee::all(),
+            "employees" => Employee::with("department")->get(),
         ]);
     }
 
@@ -44,7 +46,7 @@ class EmployeeController extends Controller
     {
         $validated = $request->validate([
             'code' => 'required',
-            'department_id' => 'required',
+            'departments' => 'required',
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
             'username' => ['required', 'string', 'max:255', 'unique:' . User::class],
@@ -61,18 +63,25 @@ class EmployeeController extends Controller
                 'username' => $request->username,
                 'user_type_id' => 2, // 2 is for Employee
             ]);
-            foreach ($request->roles as $key => $value) {
-                $user->syncRoles($value);
-            }
-            Employee::create(
+            $user->syncRoles($request->roles);
+            // foreach ($request->roles as $key => $value) {
+            //     $user->syncRoles($value);
+            // }
+            $employee = Employee::create(
                 array_merge(
-                    $request->except(["file", "id", "previous_logo", "roles", "username", "password", "password_confirmation", "user_id"]),
+                    $request->except(["file", "id", "previous_logo", "roles", "username", "password", "password_confirmation", "user_id","departments"]),
                     [
                         "user_id" => $user->id,
                         "image" => (!empty($result) ? $result["fileName"] : ""),
                     ]
                 )
             );
+            foreach ($request->departments as $key => $value) {
+                EmployeeDepartment::create([
+                    "employee_id" => $employee->id,
+                    "department_id" => $value,
+                ]);
+            }
             DB::commit();
             return response()->json(["status" => 200, "messsage" => "Employee created successfully"]);
         } catch (\Throwable $th) {
@@ -114,9 +123,10 @@ class EmployeeController extends Controller
                 'email' => $request->email,
             ]);
             $user = User::findOrFail($request->user_id);
-            foreach ($request->roles as $key => $value) {
-                $user->syncRoles($value);
-            }
+            $user->syncRoles($request->roles);
+            // foreach ($request->roles as $key => $value) {
+            //     $user->syncRoles($value);
+            // }
             $employee->update(
                 array_merge(
                     $request->except(["file", "id", "previous_logo", "roles", "username", "password", "password_confirmation", "user_id"]),
