@@ -53,7 +53,7 @@ class CustomerController extends Controller
             'city' => 'required',
             'state' => 'required',
             'zipcode' => 'required',
-            'system_size' => 'required',
+            'panel_qty' => 'required',
             'sold_date' => 'required',
             'sales_partner_id' => 'required',
             // 'notes' => 'required',
