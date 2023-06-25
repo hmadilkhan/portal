@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\BelongsToManyRelationship;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Employee extends Model
@@ -17,12 +19,17 @@ class Employee extends Model
       return $this->belongsTo(User::class);
    }
 
-   public function department()
+   // public function department()
+   // {
+   //    return $this->hasMany(EmployeeDepartment::class);
+   // }
+
+   public function department(): BelongsToMany
    {
-      return $this->hasMany(EmployeeDepartment::class);
+      return $this->belongsToMany(Department::class,'employee_departments');
    }
 
-   public function scopeGetUser($query,$departmentId,$roles)
+   public function scopeGetUser($query, $departmentId, $roles)
    {
       return $this->where("department_id", $departmentId)
          // ->with("user","user.roles")
@@ -33,7 +40,7 @@ class Employee extends Model
          });
    }
 
-   public function scopeGetUserWithRoleAndDepartment($query,$departmentId)
+   public function scopeGetUserWithRoleAndDepartment($query, $departmentId)
    {
       return $this->where("department_id", $departmentId)
          // ->with("user","user.roles")

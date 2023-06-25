@@ -43,12 +43,13 @@
                     </thead>
                     <tbody>
                         @foreach ($employees as $key => $employee)
+                        @php $values = $employee->department->pluck('name'); @endphp
                         <tr>
                             <td>{{ ++$key }}</td>
                             <td>{{ $employee->code }}</td>
                             <td>{{ $employee->name }}</td>
                             <td>{{ $employee->email }}</td>
-                            <td>{{ $employee->department->department->name }}</td>
+                            <td>{{implode(', ',$values->toArray() )}}</td>
                             <td>{{ $employee->user->username }}</td>
                             <td>{{ $employee->user->getRoleNames()[0] }}</td>
                             <td class="text-center">

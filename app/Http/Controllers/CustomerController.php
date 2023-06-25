@@ -2,9 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BatteryType;
 use App\Models\Customer;
 use App\Models\CustomerFinance;
 use App\Models\FinanceOption;
+use App\Models\InverterType;
+use App\Models\InverterTypeRate;
+use App\Models\LoanApr;
+use App\Models\LoanTerm;
+use App\Models\ModuleType;
 use App\Models\SalesPartner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -29,6 +35,9 @@ class CustomerController extends Controller
         return view("customer.create", [
             "financeoptions" => FinanceOption::all(),
             "partners" => SalesPartner::all(),
+            "inverter_types" => InverterType::all(),
+            "battery_types" => BatteryType::all(),
+            "modules" => ModuleType::all(),
         ]);
     }
 
@@ -47,7 +56,7 @@ class CustomerController extends Controller
             'system_size' => 'required',
             'sold_date' => 'required',
             'sales_partner_id' => 'required',
-            'notes' => 'required',
+            // 'notes' => 'required',
             'finance_option_id' => 'required',
             'contract_amount' => 'required',
             'redline_costs' => 'required',
@@ -57,7 +66,7 @@ class CustomerController extends Controller
         ]);
         try {
             DB::beginTransaction();
-            $customer = Customer::create($request->except(["finance_option_id", "contract_amount", "redline_costs", "adders", "commission", "dealer_fee"]));
+            $customer = Customer::create($request->except(["finance_option_id", "contract_amount", "redline_costs", "adders", "commission", "dealer_fee","loan_term_id","loan_apr_id","dealer_fee_amount"]));
             CustomerFinance::create([
                 "customer_id" => $customer->id,
                 "finance_option_id" => $request->finance_option_id,
@@ -67,6 +76,7 @@ class CustomerController extends Controller
                 "commission" => $request->commission,
                 "adders" => $request->adders,
                 "dealer_fee" => $request->dealer_fee,
+                "dealer_fee_amount" => $request->dealer_fee_amount,
             ]);
             DB::commit();
             return redirect()->route("customers.index");
@@ -92,8 +102,10 @@ class CustomerController extends Controller
     {
         return view("customer.edit", [
             "customer" => $customer,
-            "financeoptions" => FinanceOption::all(),
             "partners" => SalesPartner::all(),
+            "financeoptions" => FinanceOption::all(),
+            "inverter_types" => InverterType::all(),
+            "battery_types" => BatteryType::all(),
         ]);
     }
 
@@ -121,4 +133,41 @@ class CustomerController extends Controller
     {
         //
     }
+    
+    public function getLoanTerms(Request $request) {
+        try {
+            $terms = LoanTerm::where("finance_option_id",$request->id)->get();
+            return response()->json(["status" => 200,"terms" => $terms]);
+        } catch (\Throwable $th) {
+            return response()->json(["status" => 200,"message" => $th->getMessage()]);
+        }   
+    }
+
+    public function getLoanAprs(Request $request) {
+        try {
+            $aprs = LoanApr::where("loan_term_id",$request->id)->get();
+            return response()->json(["status" => 200,"aprs" => $aprs]);
+        } catch (\Throwable $th) {
+            return response()->json(["status" => 200,"message" => $th->getMessage()]);
+        }   
+    }
+
+    public function getDealerFee(Request $request) {
+        try {
+            $dealer_fee = LoanApr::where("id",$request->id)->first("dealer_fee");
+            return response()->json(["status" => 200,"dealerfee" => $dealer_fee->dealer_fee]);
+        } catch (\Throwable $th) {
+            return response()->json(["status" => 200,"message" => $th->getMessage()]);
+        }   
+    }
+
+    public function getRedlineCost(Request $request) {
+        try {
+            $cost = InverterTypeRate::where("inverter_type_id",$request->inverterType)->where("panels_qty",$request->qty)->first("redline_cost");
+            return response()->json(["status" => 200,"redlinecost" => $cost->redline_cost]);
+        } catch (\Throwable $th) {
+            return response()->json(["status" => 200,"message" => $th->getMessage()]);
+        }   
+    }
 }
+

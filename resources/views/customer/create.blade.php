@@ -30,41 +30,49 @@
                     <div class="text-danger message mt-2">{{$message}}</div>
                     @enderror
                 </div>
-                <div class="col-sm-3 mb-3">
+                <div class="col-sm-4 mb-3">
                     <label for="exampleFormControlInput877" class="form-label">Street</label>
                     <input type="text" class="form-control" id="street" name="street" placeholder="Street">
                     @error("street")
                     <div class="text-danger message mt-2">{{$message}}</div>
                     @enderror
                 </div>
-                <div class="col-sm-3 mb-3">
+                <div class="col-sm-4 mb-3">
                     <label for="exampleFormControlInput877" class="form-label">City</label>
                     <input type="text" class="form-control" id="city" name="city" placeholder="City">
                     @error("city")
                     <div class="text-danger message mt-2">{{$message}}</div>
                     @enderror
                 </div>
-                <div class="col-sm-3 mb-3">
+                <div class="col-sm-4 mb-3">
                     <label for="exampleFormControlInput877" class="form-label">State</label>
                     <input type="text" class="form-control" id="state" name="state" placeholder="State">
                     @error("state")
                     <div class="text-danger message mt-2">{{$message}}</div>
                     @enderror
                 </div>
-                <div class="col-sm-3 mb-3">
+                <div class="col-sm-4 mb-3">
                     <label for="exampleFormControlInput877" class="form-label">Zip Code</label>
                     <input type="text" class="form-control" id="zipcode" name="zipcode" placeholder="Zip Code">
                     @error("zipcode")
                     <div class="text-danger message mt-2">{{$message}}</div>
                     @enderror
                 </div>
-                <div class="col-sm-4">
-                    <label for="code" class="form-label">System Size</label>
-                    <input type="text" class="form-control" id="system_size" name="system_size" placeholder="System Size">
-                    @error("system_size")
+                <div class="col-sm-4 mb-3">
+                    <label for="exampleFormControlInput877" class="form-label">Phone</label>
+                    <input type="text" class="form-control" id="phone" name="phone" placeholder="phone">
+                    @error("phone")
                     <div class="text-danger message mt-2">{{$message}}</div>
                     @enderror
                 </div>
+                <div class="col-sm-4 mb-3">
+                    <label for="exampleFormControlInput877" class="form-label">Email</label>
+                    <input type="text" class="form-control" id="email" name="email" placeholder="Email">
+                    @error("email")
+                    <div class="text-danger message mt-2">{{$message}}</div>
+                    @enderror
+                </div>
+                
                 <div class="col-sm-4">
                     <label for="sold_date" class="form-label">Sold Date</label>
                     <input type="date" class="form-control" id="sold_date" name="sold_date" placeholder="Sold Date">
@@ -86,17 +94,73 @@
                     <div class="text-danger message mt-2">{{$message}}</div>
                     @enderror
                 </div>
-                <div class="col-md-6">
-                    <label for="addnote" class="form-label">Address</label>
-                    <textarea class="form-control" id="address" name="address" rows="3"></textarea>
-                    @error("address")
+                <div class="col-sm-4">
+                    <label for="code" class="form-label">Panel Qty</label>
+                    <input type="text" class="form-control" id="panel_qty" name="panel_qty" placeholder="System Size" onblur="getRedlineCost()">
+                    @error("panel_qty")
                     <div class="text-danger message mt-2">{{$message}}</div>
                     @enderror
                 </div>
-                <div class="col-md-6">
-                    <label for="addnote" class="form-label">Scope of Work</label>
-                    <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
-                    @error("notes")
+                <div class="col-sm-4">
+                    <label class="form-label">Inverter Type</label>
+                    <select class="form-select select2" aria-label="Default select Inverter Type" id="inverter_type_id" name="inverter_type_id" onchange="getRedlineCost()">
+                        <option value="">Select Inverter Type</option>
+                        @foreach ($inverter_types as $inverter)
+                        <option value="{{ $inverter->id }}">
+                            {{ $inverter->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                    @error("inverter_type_id")
+                    <div class="text-danger message mt-2">{{$message}}</div>
+                    @enderror
+                </div>
+                <div class="col-sm-4">
+                    <label class="form-label">Module Type</label>
+                    <select class="form-select select2" aria-label="Default select Module Type" id="module_type_id" name="module_type_id">
+                        <option value="">Select Module Type</option>
+                        @foreach ($modules as $module)
+                        <option value="{{ $module->id }}">
+                            {{ $module->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                    @error("module_type_id")
+                    <div class="text-danger message mt-2">{{$message}}</div>
+                    @enderror
+                </div>
+                <div class="col-sm-4">
+                    <label class="form-label">Battery Type</label>
+                    <select class="form-select select2" aria-label="Default select Battery Type" id="battery_type_id" name="battery_type_id">
+                        <option value="">Select Battery Type</option>
+                        @foreach ($battery_types as $battery)
+                        <option value="{{ $battery->id }}">
+                            {{ $battery->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                    @error("battery_type_id")
+                    <div class="text-danger message mt-2">{{$message}}</div>
+                    @enderror
+                </div>
+                <div class="col-sm-4 mb-3">
+                    <label for="exampleFormControlInput877" class="form-label">Inverter Qty</label>
+                    <input type="text" class="form-control" id="inverter_qty" name="inverter_qty" placeholder="Inverter Qty">
+                    @error("inverter_qty")
+                    <div class="text-danger message mt-2">{{$message}}</div>
+                    @enderror
+                </div>
+                <div class="col-sm-4 mb-3">
+                    <label for="exampleFormControlInput877" class="form-label">Module Qty</label>
+                    <input type="text" class="form-control" id="module_qty" name="module_qty" placeholder="Module Qty">
+                    @error("module_qty")
+                    <div class="text-danger message mt-2">{{$message}}</div>
+                    @enderror
+                </div>
+                <div class="col-sm-4 mb-3">
+                    <label for="exampleFormControlInput877" class="form-label">Battery Qty</label>
+                    <input type="text" class="form-control" id="battery_qty" name="battery_qty" placeholder="Battery Qty">
+                    @error("battery_qty")
                     <div class="text-danger message mt-2">{{$message}}</div>
                     @enderror
                 </div>
@@ -112,9 +176,8 @@
                 </div>
             </div><!-- Row End -->
             <div class="row g-3 mb-3">
-                <div class="col-sm-6 mb-3">
+                <div class="col-sm-3 mb-3">
                     <label for="finance_option_id" class="form-label">Finance Option</label>
-                    <label class="form-label">Finance Option</label>
                     <select class="form-select select2" aria-label="Default select Finance Option" id="finance_option_id" name="finance_option_id">
                         <option value="">Select Finance Option</option>
                         @foreach ($financeoptions as $financeOption)
@@ -127,7 +190,25 @@
                     <div class="text-danger message mt-2">{{$message}}</div>
                     @enderror
                 </div>
-                <div class="col-sm-6 mb-3">
+                <div class="col-sm-3 mb-3 loandiv">
+                    <label for="loan_term_id" class="form-label">Loan Term</label>
+                    <select class="form-select select2" aria-label="Default select Loan Term" id="loan_term_id" name="loan_term_id">
+                        <option value="">Select Loan Term</option>
+                    </select>
+                    @error("loan_term_id")
+                    <div class="text-danger message mt-2">{{$message}}</div>
+                    @enderror
+                </div>
+                <div class="col-sm-3 mb-3 loandiv">
+                    <label for="loan_apr_id" class="form-label">Loan Apr</label>
+                    <select class="form-select select2" aria-label="Default select Loan Apr" id="loan_apr_id" name="loan_apr_id">
+                        <option value="">Select Loan Apr</option>
+                    </select>
+                    @error("loan_apr_id")
+                    <div class="text-danger message mt-2">{{$message}}</div>
+                    @enderror
+                </div>
+                <div class="col-sm-3 mb-3">
                     <label for="contract_amount" class="form-label">Contract Amount</label>
                     <input type="text" class="form-control" id="contract_amount" name="contract_amount" placeholder="Contract Amount">
                     @error("contract_amount")
@@ -157,18 +238,131 @@
                 </div>
                 <div class="col-sm-3 mb-3">
                     <label for="dealer_fee" class="form-label">Dealer Fee</label>
-                    <input type="text" class="form-control" id="dealer_fee" name="dealer_fee" placeholder="Dealer Fee">
+                    <input readonly type="text" class="form-control" id="dealer_fee" name="dealer_fee" placeholder="Dealer Fee">
                     @error("dealer_fee")
                     <div class="text-danger message mt-2">{{$message}}</div>
                     @enderror
                 </div>
+                <div class="col-sm-3 mb-3">
+                    <label for="dealer_fee_amount" class="form-label">Dealer Fee Amount</label>
+                    <input type="text" class="form-control" id="dealer_fee_amount" name="dealer_fee_amount" placeholder="Dealer Fee Amount">
+                    @error("dealer_fee_amount")
+                    <div class="text-danger message mt-2">{{$message}}</div>
+                    @enderror
+                </div>
             </div>
-
-
-
             <button type="submit" class="btn btn-primary"><i class="icofont-save me-2 fs-6"></i>Create</button>
         </form>
 
     </div>
 </div>
+@endsection
+@section("scripts")
+<script>
+    $(document).ready(function() {
+        $(".loandiv").css("display", "none");
+    });
+    $("#finance_option_id").change(function() {
+        if ($(this).val() != 1) {
+            $(".loandiv").css("display", "block");
+            $.ajax({
+                method: "POST",
+                url: "{{ route('get.loan.terms') }}",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    id: $(this).val(),
+                },
+                dataType: 'json',
+                success: function(response) {
+                    $('#loan_term_id').empty();
+                    $('#loan_term_id').append($('<option value="">Select Loan Term</soption>'));
+                    $.each(response.terms, function(i, term) {
+                        $('#loan_term_id').append($('<option  value="' + term.id + '">' + term.year + '</option>'));
+                    });
+                },
+                error: function(error) {
+                    console.log(error.responseJSON.message);
+                }
+            })
+        } else {
+            $(".loandiv").css("display", "none");
+            $("#dealer_fee").val(0);
+            $("#dealer_fee_amount").val(0);
+        }
+    });
+    $("#loan_term_id").change(function() {
+        if ($(this).val() != "") {
+            $.ajax({
+                method: "POST",
+                url: "{{ route('get.loan.aprs') }}",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    id: $(this).val(),
+                },
+                dataType: 'json',
+                success: function(response) {
+                    $('#loan_apr_id').empty();
+                    $('#loan_apr_id').append($('<option value="">Select Loan Apr</soption>'));
+                    $.each(response.aprs, function(i, apr) {
+                        $('#loan_apr_id').append($('<option  value="' + apr.id + '">' + (apr.apr * 100).toFixed(2) + '%</option>'));
+                    });
+                },
+                error: function(error) {
+                    console.log(error.responseJSON.message);
+                }
+            })
+        }
+    });
+    $("#loan_apr_id").change(function() {
+        if ($(this).val() != "") {
+            getDealerFee($(this).val())
+        }
+    });
+
+    function getDealerFee(value) {
+        $.ajax({
+            method: "POST",
+            url: "{{ route('get.dealer.fee') }}",
+            data: {
+                _token: "{{ csrf_token() }}",
+                id: value,
+            },
+            dataType: 'json',
+            success: function(response) {
+                $('#dealer_fee').val('');
+                $('#dealer_fee').val(response.dealerfee * 100);
+
+            },
+            error: function(error) {
+                console.log(error.responseJSON.message);
+            }
+        })
+    }
+
+    function getRedlineCost() {
+        let panelQty = $("#panel_qty").val();
+        let inverterType = $("#inverter_type_id").val();
+
+        if (panelQty != "" && inverterType != "") {
+            $.ajax({
+                method: "POST",
+                url: "{{ route('get.redline.cost') }}",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    qty: panelQty,
+                    inverterType: inverterType,
+                },
+                dataType: 'json',
+                success: function(response) {
+                    $('#redline_costs').val('');
+                    $('#redline_costs').val(response.redlinecost);
+
+                },
+                error: function(error) {
+                    console.log(error.responseJSON.message);
+                }
+            })
+        }
+    }
+</script>
 @endsection

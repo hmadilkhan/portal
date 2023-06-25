@@ -21,7 +21,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        return  Employee::with("department","department.department")->get();
+        // return Employee::with("user","user.roles","department")->get();
         return view("employees.index", [
             "employees" => Employee::with("department")->get(),
         ]);
@@ -124,18 +124,22 @@ class EmployeeController extends Controller
             ]);
             $user = User::findOrFail($request->user_id);
             $user->syncRoles($request->roles);
-            // foreach ($request->roles as $key => $value) {
-            //     $user->syncRoles($value);
-            // }
             $employee->update(
                 array_merge(
-                    $request->except(["file", "id", "previous_logo", "roles", "username", "password", "password_confirmation", "user_id"]),
+                    $request->except(["file", "id", "previous_logo", "roles", "username", "password", "password_confirmation", "user_id","departments"]),
                     [
                         "user_id" => $request->user_id,
                         "image" => (!empty($result) ? $result["fileName"] : $request->previous_logo),
                     ]
                 )
             );
+            EmployeeDepartment::where("employee_id",$employee->id)->delete();
+            foreach ($request->departments as $key => $value) {
+                EmployeeDepartment::create([
+                    "employee_id" => $employee->id,
+                    "department_id" => $value,
+                ]);
+            }
             DB::commit();
             return response()->json(["status" => 200, "messsage" => "Employee updated successfully"]);
         } catch (\Throwable $th) {

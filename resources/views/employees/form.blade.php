@@ -60,7 +60,7 @@
             <label class="form-label">Department</label>
             <select class="form-select select2" multiple aria-label="Default select Project Category" id="department_id" name="departments[]">
                 @foreach ($departments as $department)
-                <option value="{{ $department->id }}">{{ $department->name }}</option>
+                <option value="{{ $department->id }}" {{ !empty($employee) ? (in_array($department->id, $employee->department->pluck('id')->toArray()) ? 'selected' : '') : '' }}>{{ $department->name }}</option>
                 @endforeach
             </select>
             <div id="department_id_message" class="text-danger message mt-2"></div>
@@ -69,7 +69,7 @@
             <label class="form-label">Roles</label>
             <select class="form-select select2" aria-label="Default select Project Category" id="role" name="roles">
                 @foreach ($roles as $role)
-                <option value="{{ $role->id }}">
+                <option value="{{ $role->id }}" {{ !empty($employee) ? (in_array($role->id, $employee->user->roles->pluck('id')->toArray()) ? 'selected' : '') : '' }} >
                     {{ $role->name }}
                 </option>
                 @endforeach
