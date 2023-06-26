@@ -72,7 +72,7 @@
                     <div class="text-danger message mt-2">{{$message}}</div>
                     @enderror
                 </div>
-                
+
                 <div class="col-sm-4">
                     <label for="sold_date" class="form-label">Sold Date</label>
                     <input type="date" class="form-control" id="sold_date" name="sold_date" placeholder="Sold Date">
@@ -165,6 +165,15 @@
                     @enderror
                 </div>
             </div>
+            <div class="row clearfix">
+                <div class="col-md-12">
+                    <div class="card border-0 mb-4 no-bg">
+                        <div class="card-header py-3 px-0 d-sm-flex align-items-center  justify-content-between border-bottom">
+                            <h6 class=" fw-bold flex-fill mb-0 mt-sm-0">Adders Area</h6>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- Row End -->
 
             <div class="row clearfix">
                 <div class="col-md-12">
@@ -210,7 +219,7 @@
                 </div>
                 <div class="col-sm-3 mb-3">
                     <label for="contract_amount" class="form-label">Contract Amount</label>
-                    <input type="text" class="form-control" id="contract_amount" name="contract_amount" placeholder="Contract Amount">
+                    <input type="text" class="form-control" id="contract_amount" name="contract_amount" placeholder="Contract Amount" onblur="dealerFee()">
                     @error("contract_amount")
                     <div class="text-danger message mt-2">{{$message}}</div>
                     @enderror
@@ -224,14 +233,14 @@
                 </div>
                 <div class="col-sm-3 mb-3">
                     <label for="adders" class="form-label">Adders</label>
-                    <input type="text" class="form-control" id="adders" name="adders" placeholder="Adders">
+                    <input type="text" class="form-control" id="adders" name="adders" placeholder="Adders" value="0">
                     @error("adders")
                     <div class="text-danger message mt-2">{{$message}}</div>
                     @enderror
                 </div>
                 <div class="col-sm-3 mb-3">
                     <label for="commission" class="form-label">Commission</label>
-                    <input type="text" class="form-control" id="commission" name="commission" placeholder="Commission">
+                    <input type="text" class="form-control" id="commission" name="commission" placeholder="Commission" value="0">
                     @error("commission")
                     <div class="text-danger message mt-2">{{$message}}</div>
                     @enderror
@@ -245,7 +254,7 @@
                 </div>
                 <div class="col-sm-3 mb-3">
                     <label for="dealer_fee_amount" class="form-label">Dealer Fee Amount</label>
-                    <input type="text" class="form-control" id="dealer_fee_amount" name="dealer_fee_amount" placeholder="Dealer Fee Amount">
+                    <input type="text" class="form-control" id="dealer_fee_amount" name="dealer_fee_amount" placeholder="Dealer Fee Amount" value="0">
                     @error("dealer_fee_amount")
                     <div class="text-danger message mt-2">{{$message}}</div>
                     @enderror
@@ -329,8 +338,12 @@
             },
             dataType: 'json',
             success: function(response) {
-                $('#dealer_fee').val('');
-                $('#dealer_fee').val(response.dealerfee * 100);
+                // let dealerFee = response.dealerfee;
+                // let dealerPercentage = (response.dealerfee * 100).toFixed(2);
+                // $('#dealer_fee').val('');
+                // $('#dealer_fee').val(dealerPercentage);
+                dealerFee(response.dealerfee);
+                calculateCommission()
 
             },
             error: function(error) {
@@ -363,6 +376,32 @@
                 }
             })
         }
+        calculateCommission()
+    }
+
+    function dealerFee(value) {
+        let dealerFee = (value != undefined ? value : parseFloat($("#dealer_fee").val()));
+        let dealerPercentage = (dealerFee * 100).toFixed(2);
+        let contractAmount = parseFloat($('#contract_amount').val());
+        if (value != undefined) {
+            $('#dealer_fee').val('');
+            $('#dealer_fee').val(dealerPercentage);
+        }
+        if(contractAmount != "" && value != undefined ){
+            $('#dealer_fee_amount').val(value*contractAmount);
+        }else{
+            $('#dealer_fee_amount').val((dealerFee / 100)*contractAmount);
+        }
+        calculateCommission()
+    }
+
+    function calculateCommission() {
+        let contractAmount = parseFloat($("#contract_amount").val());
+        let dealerFeeAmount = parseFloat($("#dealer_fee_amount").val());
+        let redlineFee = parseFloat($("#redline_costs").val());
+        let adders = parseFloat($("#adders").val());
+        let commission = contractAmount - dealerFeeAmount - redlineFee - adders;
+        $("#commission").val(commission);
     }
 </script>
 @endsection
