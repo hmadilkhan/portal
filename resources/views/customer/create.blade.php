@@ -175,6 +175,65 @@
                 </div>
             </div><!-- Row End -->
 
+            <div class="row g-3 mb-3">
+                <div class="col-sm-3 mb-3">
+                    <label for="adders" class="form-label">Adders</label>
+                    <select class="form-select select2" aria-label="Default select Adders" id="adders" name="adders">
+                        <option value="">Select Adders</option>
+                        @foreach ($adders as $adder)
+                        <option value="{{ $adder->id }}">
+                            {{ $adder->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-sm-3 mb-3">
+                    <label for="sub_type" class="form-label">Sub Type</label>
+                    <select class="form-select select2" aria-label="Default select Sub Type" id="sub_type" name="sub_type">
+                        <option value="">Select Sub Type</option>
+                    </select>
+                </div>
+                <div class="col-sm-2 mb-3">
+                    <label for="uom" class="form-label">UOM</label>
+                    <select class="form-select select2" aria-label="Default select UOM" id="uom" name="uom">
+                        <option value="">Select UOM</option>
+                        @foreach ($uoms as $uom)
+                        <option value="{{ $uom->id }}">
+                            {{ $uom->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                    @error("uom")
+                    <div class="text-danger message mt-2">{{$message}}</div>
+                    @enderror
+                </div>
+                <div class="col-sm-2 mb-3">
+                    <label for="amount" class="form-label">Amount</label>
+                    <input type="text" class="form-control" id="amount" name="amount" placeholder="Adders Amount">
+                    @error("amount")
+                    <div class="text-danger message mt-2">{{$message}}</div>
+                    @enderror
+                </div>
+                <div class="col-sm-2 mt-5">
+                    <button type="button" id="btnAdder" class="btn btn-primary"><i class="icofont-save me-2 fs-6"></i>Add</button>
+                </div>
+            </div>
+            </hr>
+            <table id="adderTable" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Adder</th>
+                        <th>Sub Adders</th>
+                        <th>Unit</th>
+                        <th>Amount</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <!-- Adders Area End -->
             <div class="row clearfix">
                 <div class="col-md-12">
                     <div class="card border-0 mb-4 no-bg">
@@ -233,7 +292,7 @@
                 </div>
                 <div class="col-sm-3 mb-3">
                     <label for="adders" class="form-label">Adders</label>
-                    <input type="text" class="form-control" id="adders" name="adders" placeholder="Adders" value="0">
+                    <input type="text" class="form-control" id="adders_amount" name="adders_amount" placeholder="Adders" value="0">
                     @error("adders")
                     <div class="text-danger message mt-2">{{$message}}</div>
                     @enderror
@@ -387,10 +446,10 @@
             $('#dealer_fee').val('');
             $('#dealer_fee').val(dealerPercentage);
         }
-        if(contractAmount != "" && value != undefined ){
-            $('#dealer_fee_amount').val(value*contractAmount);
-        }else{
-            $('#dealer_fee_amount').val((dealerFee / 100)*contractAmount);
+        if (contractAmount != "" && value != undefined) {
+            $('#dealer_fee_amount').val(value * contractAmount);
+        } else {
+            $('#dealer_fee_amount').val((dealerFee / 100) * contractAmount);
         }
         calculateCommission()
     }
@@ -402,6 +461,132 @@
         let adders = parseFloat($("#adders").val());
         let commission = contractAmount - dealerFeeAmount - redlineFee - adders;
         $("#commission").val(commission);
+    }
+
+    $("#adders").change(function() {
+        if ($(this).val() != "") {
+            $.ajax({
+                method: "POST",
+                url: "{{ route('get.sub.adders') }}",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    id: $(this).val(),
+                },
+                dataType: 'json',
+                success: function(response) {
+                    $('#sub_type').empty();
+                    $('#sub_type').append($('<option value="">Select Loan Apr</soption>'));
+                    $.each(response.subadders, function(i, subtype) {
+                        $('#sub_type').append($('<option  value="' + subtype.id + '">' + subtype.name + '</option>'));
+                    });
+                },
+                error: function(error) {
+                    console.log(error.responseJSON.message);
+                }
+            })
+        }
+    })
+
+    $("#sub_type").change(function() {
+        if ($(this).val() != "") {
+            $.ajax({
+                method: "POST",
+                url: "{{ route('get.adders') }}",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    subadder: $(this).val(),
+                    adder: $("#adders").val(),
+                },
+                dataType: 'json',
+                success: function(response) {
+                    console.log(response);
+                    $("#uom").val(response.adders.adder_unit_id).change();
+                    $("#amount").val(response.adders.price);
+                },
+                error: function(error) {
+                    console.log(error.responseJSON.message);
+                }
+            })
+        }
+    })
+
+    $("#btnAdder").click(function() {
+        let rowLength = $('#adderTable tbody').find('tr').length;
+        let adders_id = $("#adders").val();
+        let subadder_id = $("#sub_type").val();
+        let unit_id = $("#uom").val();
+        let adders_name = $.trim($("#adders option:selected").text());
+        let subadder_name = $.trim($("#sub_type option:selected").text());
+        let unit_name = $.trim($("#uom option:selected").text());
+        let amount = $("#amount").val();
+
+        let newRow = "<tr id='row" + (rowLength + 1) + "'>" +
+            '<input type="hidden" value="' + adders_id + '" name="adders[]" />' +
+            '<input type="hidden" value="' + subadder_id + '" name="subadders[]" />' +
+            '<input type="hidden" value="' + unit_id + '" name="uom[]" />' +
+            '<input type="hidden" value="' + amount + '" name="amount[]" />' +
+
+
+            "<td>" + (rowLength + 1) + "</td>" +
+            "<td>" + adders_name + "</td>" +
+            "<td>" + subadder_name + "</td>" +
+            "<td>" + unit_name + "</td>" +
+            "<td>" + amount + "</td>" +
+
+            "<td colspan='4'>&nbsp;&nbsp;<i style='cursor: pointer;' class='icofont-trash text-danger' onClick=deleteItem(" +
+            (rowLength + 1) + ")>Delete</i></td>" +
+            "</tr>";
+
+        $("#adderTable > tbody").append(newRow);
+        calculateAddersAmount();
+        emptyControls();
+
+
+    });
+
+    function deleteItem(id) {
+        $("#row" + id).remove();
+        calculateAddersAmount();
+    }
+
+    function editItem(id,addersId,subAdderId,uomId,amount)
+	{
+		$("#adders").val(addersId).change();
+		$("#sub_type").val(subAdderId).change()
+		$("#uom").val(uomId).change();
+		$("#amount").val(amount).change();
+		
+		
+		// $("#btnAdd").css("display", "none");
+		// $("#btnUpdate").css("display", "block");
+		// $("#btnCancel").css("display", "block");
+	}
+
+    function checkExistence()
+    {
+        let adders_amount = 0;
+        $("#adderTable tbody tr").each( function( index ) {
+			adders_amount += $(this).children().eq(8).text() * 1;
+            console.log(adders_amount);
+		});
+        $("#adders_amount").val(adders_amount);
+    }
+
+    function calculateAddersAmount()
+    {
+        let adders_amount = 0;
+        $("#adderTable tbody tr").each( function( index ) {
+			adders_amount += $(this).children().eq(8).text() * 1;
+            console.log(adders_amount);
+		});
+        $("#adders_amount").val(adders_amount);
+    }
+
+    function emptyControls() {
+        $("#adders").val('').change();
+        $("#sub_type").val('').change();
+        $("#uom").val('').change();
+        $("#amount").val('');
     }
 </script>
 @endsection
