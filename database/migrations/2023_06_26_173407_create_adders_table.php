@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer("adder_type_id");
             $table->integer("adder_sub_type_id");
             $table->integer("adder_unit_id");
-            $table->double("price",18,2);
+            $table->double("price",18,2)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

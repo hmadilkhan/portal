@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Adder;
+use App\Models\AdderSubType;
+use App\Models\AdderType;
+use App\Models\AdderUnit;
 use App\Models\BatteryType;
 use App\Models\Customer;
 use App\Models\CustomerFinance;
@@ -38,6 +42,8 @@ class CustomerController extends Controller
             "inverter_types" => InverterType::all(),
             "battery_types" => BatteryType::all(),
             "modules" => ModuleType::all(),
+            "adders" => AdderType::all(),
+            "uoms" => AdderUnit::all(),
         ]);
     }
 
@@ -165,6 +171,24 @@ class CustomerController extends Controller
         try {
             $cost = InverterTypeRate::where("inverter_type_id",$request->inverterType)->where("panels_qty",$request->qty)->first("redline_cost");
             return response()->json(["status" => 200,"redlinecost" => $cost->redline_cost]);
+        } catch (\Throwable $th) {
+            return response()->json(["status" => 200,"message" => $th->getMessage()]);
+        }   
+    }
+
+    public function getSubAdders(Request $request) {
+        try {
+            $subadders = AdderSubType::where("adder_type_id",$request->id)->get();
+            return response()->json(["status" => 200,"subadders" => $subadders]);
+        } catch (\Throwable $th) {
+            return response()->json(["status" => 200,"message" => $th->getMessage()]);
+        }   
+    }
+
+    public function getAdderDetails(Request $request) {
+        try {
+            $adders = Adder::where("adder_type_id",$request->adder)->where("adder_sub_type_id",$request->subadder)->first();
+            return response()->json(["status" => 200,"adders" => $adders]);
         } catch (\Throwable $th) {
             return response()->json(["status" => 200,"message" => $th->getMessage()]);
         }   
