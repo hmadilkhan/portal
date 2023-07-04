@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ModuleTypeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
@@ -53,12 +54,14 @@ Route::middleware('auth')->group(function () {
         Route::post('store-user-permission', [App\Http\Controllers\PermissionController::class, 'storeUserPermission'])->name('store.user.permission');
         Route::post('update-user-permission', [App\Http\Controllers\PermissionController::class, 'updateUserPermission'])->name('update.user.permission');
         Route::post('delete-user-permission', [App\Http\Controllers\PermissionController::class, 'deleteUserPermission'])->name('delete.user.permission');
+
+        Route::resource('tasks', TaskController::class);
     });
 
     Route::resource('employees', EmployeeController::class);
     Route::resource('customers', CustomerController::class);
     Route::resource('projects', ProjectController::class);
-    Route::resource('tasks', TaskController::class);
+    Route::resource('module-types', ModuleTypeController::class);
 
     Route::post('get-loan-terms', [App\Http\Controllers\CustomerController::class, 'getLoanTerms'])->name('get.loan.terms');
     Route::post('get-loan-aprs', [App\Http\Controllers\CustomerController::class, 'getLoanAprs'])->name('get.loan.aprs');
@@ -66,6 +69,7 @@ Route::middleware('auth')->group(function () {
     Route::post('get-redline-cost', [App\Http\Controllers\CustomerController::class, 'getRedlineCost'])->name('get.redline.cost');
     Route::post('get-sub-adders', [App\Http\Controllers\CustomerController::class, 'getSubAdders'])->name('get.sub.adders');
     Route::post('get-adders', [App\Http\Controllers\CustomerController::class, 'getAdderDetails'])->name('get.adders');
+    Route::post('get-module-types', [App\Http\Controllers\CustomerController::class, 'getModulTypevalue'])->name('get.module.types');
 
     Route::post('project-list', [App\Http\Controllers\ProjectController::class, 'getProjectList'])->name('projects.list');
 

@@ -252,4 +252,14 @@ class CustomerController extends Controller
             return response()->json(["status" => 200, "message" => $th->getMessage()]);
         }
     }
+
+    public function getModulTypevalue(Request $request)
+    {
+        try {
+            $types = ModuleType::where("id", $request->id)->first();
+            return response()->json(["status" => 200, "types" => $types]);
+        } catch (\Throwable $th) {
+            return response()->json(["status" => 200, "message" => $th->getMessage()]);
+        }
+    }
 }

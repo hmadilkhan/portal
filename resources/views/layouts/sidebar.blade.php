@@ -53,9 +53,17 @@
                 <a class="m-link {{ (Route::currentRouteName() == 'projects.index' or Route::currentRouteName() == 'projects.create' or Route::currentRouteName() == 'projects.edit' ) ? 'show' : '' }}" data-bs-toggle="collapse" data-bs-target="#project-Components" href="#">
                     <i class="icofont-briefcase"></i><span>Projects</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
                 <!-- Menu: Sub menu ul -->
-                <ul class="sub-menu collapse {{ (Route::currentRouteName() == 'projects.index' or Route::currentRouteName() == 'projects.create' or Route::currentRouteName() == 'projects.edit' ) ? 'show' : '' }}" id="project-Components">
+                <ul class="sub-menu collapse {{ (Route::currentRouteName() == 'projects.index' or Route::currentRouteName() == 'projects.create' or Route::currentRouteName() == 'projects.edit' or Route::currentRouteName() == 'tasks.index' ) ? 'show' : '' }}" id="project-Components">
                     <li><a class="ms-link {{ Route::currentRouteName() == 'projects.index' ? 'active' : '' }}" href="{{route('projects.index')}}"><span>Projects</span></a></li>
-                    <li><a class="ms-link {{ Route::currentRouteName() == 'tasks.index' ? 'active' : '' }}"" href=" {{ route('tasks.index') }}"><span>Tasks</span></a></li>
+                    <li><a class="ms-link {{ Route::currentRouteName() == 'tasks.index' ? 'active' : '' }}" href=" {{ route('tasks.index') }}"><span>Tasks</span></a></li>
+                </ul>
+            </li>
+            <li class="collapsed">
+                <a class="m-link {{ (Route::currentRouteName() == 'projects.index' or Route::currentRouteName() == 'projects.create' or Route::currentRouteName() == 'projects.edit' ) ? 'show' : '' }}" data-bs-toggle="collapse" data-bs-target="#module-types" href="#">
+                    <i class="icofont-briefcase"></i><span>Operations</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+                <!-- Menu: Sub menu ul -->
+                <ul class="sub-menu collapse {{ (Route::currentRouteName() == 'module-types.index' or Route::currentRouteName() == 'projects.create' or Route::currentRouteName() == 'projects.edit' ) ? 'show' : '' }}" id="module-types">
+                    <li><a class="ms-link {{ Route::currentRouteName() == 'module-types.index' ? 'active' : '' }}" href="{{route('module-types.index')}}"><span>Module Types</span></a></li>
                 </ul>
             </li>
         </ul>

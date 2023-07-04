@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('module_types', function (Blueprint $table) {
             $table->id();
             $table->string("name");
+            $table->float("value");
             $table->softDeletes();
             $table->timestamps();
         });

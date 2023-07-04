@@ -102,20 +102,6 @@
                     @enderror
                 </div>
                 <div class="col-sm-4">
-                    <label class="form-label">Inverter Type</label>
-                    <select class="form-select select2" aria-label="Default select Inverter Type" id="inverter_type_id" name="inverter_type_id" onchange="getRedlineCost()">
-                        <option value="">Select Inverter Type</option>
-                        @foreach ($inverter_types as $inverter)
-                        <option value="{{ $inverter->id }}">
-                            {{ $inverter->name }}
-                        </option>
-                        @endforeach
-                    </select>
-                    @error("inverter_type_id")
-                    <div class="text-danger message mt-2">{{$message}}</div>
-                    @enderror
-                </div>
-                <div class="col-sm-4">
                     <label class="form-label">Module Type</label>
                     <select class="form-select select2" aria-label="Default select Module Type" id="module_type_id" name="module_type_id">
                         <option value="">Select Module Type</option>
@@ -130,7 +116,22 @@
                     @enderror
                 </div>
                 <div class="col-sm-4">
-                    <label class="form-label">Battery Type</label>
+                    <label class="form-label">Inverter Type</label>
+                    <select disabled class="form-select select2" aria-label="Default select Inverter Type" id="inverter_type_id" name="inverter_type_id" onchange="getRedlineCost()">
+                        <option value="">Select Inverter Type</option>
+                        @foreach ($inverter_types as $inverter)
+                        <option value="{{ $inverter->id }}">
+                            {{ $inverter->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                    @error("inverter_type_id")
+                    <div class="text-danger message mt-2">{{$message}}</div>
+                    @enderror
+                </div>
+
+                <div class="col-sm-4">
+                    <!-- <label class="form-label">Battery Type</label>
                     <select class="form-select select2" aria-label="Default select Battery Type" id="battery_type_id" name="battery_type_id">
                         <option value="">Select Battery Type</option>
                         @foreach ($battery_types as $battery)
@@ -141,14 +142,7 @@
                     </select>
                     @error("battery_type_id")
                     <div class="text-danger message mt-2">{{$message}}</div>
-                    @enderror
-                </div>
-                <div class="col-sm-4 mb-3">
-                    <label for="exampleFormControlInput877" class="form-label">Inverter Qty</label>
-                    <input type="text" class="form-control" id="inverter_qty" name="inverter_qty" placeholder="Inverter Qty">
-                    @error("inverter_qty")
-                    <div class="text-danger message mt-2">{{$message}}</div>
-                    @enderror
+                    @enderror -->
                 </div>
                 <div class="col-sm-4 mb-3">
                     <label for="exampleFormControlInput877" class="form-label">Module Qty</label>
@@ -158,11 +152,19 @@
                     @enderror
                 </div>
                 <div class="col-sm-4 mb-3">
-                    <label for="exampleFormControlInput877" class="form-label">Battery Qty</label>
+                    <label for="exampleFormControlInput877" class="form-label">Inverter Qty</label>
+                    <input type="text" class="form-control" id="inverter_qty" name="inverter_qty" placeholder="Inverter Qty">
+                    @error("inverter_qty")
+                    <div class="text-danger message mt-2">{{$message}}</div>
+                    @enderror
+                </div>
+
+                <div class="col-sm-4 mb-3">
+                    <!-- <label for="exampleFormControlInput877" class="form-label">Battery Qty</label>
                     <input type="text" class="form-control" id="battery_qty" name="battery_qty" placeholder="Battery Qty">
                     @error("battery_qty")
                     <div class="text-danger message mt-2">{{$message}}</div>
-                    @enderror
+                    @enderror -->
                 </div>
             </div>
             <div class="row clearfix">
@@ -424,7 +426,11 @@
                 dataType: 'json',
                 success: function(response) {
                     $('#redline_costs').val('');
-                    $('#redline_costs').val(response.redlinecost);
+                    let moduleQty = $('#module_qty').val();
+                    let panelQty = $('#panel_qty').val();
+                    let redlinecost = response.redlinecost;
+                    let redline = panelQty * moduleQty * redlinecost
+                    $('#redline_costs').val(redline);
 
                 },
                 error: function(error) {
@@ -518,6 +524,11 @@
         let subadder_name = $.trim($("#sub_type option:selected").text());
         let unit_name = $.trim($("#uom option:selected").text());
         let amount = $("#amount").val();
+        if (unit_id == 3) {
+            let moduleQty = $('#module_qty').val();
+            let panelQty = $('#panel_qty').val();
+            amount = amount * moduleQty * panelQty;
+        }
         let result = checkExistence(adders_id, subadder_id, unit_id);
         if (result == false) {
             let newRow = "<tr id='row" + (rowLength + 1) + "'>" +
@@ -594,5 +605,28 @@
         $("#uom").val('').change();
         $("#amount").val('');
     }
+
+    $("#module_type_id").change(function() {
+        if ($(this).val() != "") {
+            $("#inverter_type_id").prop("disabled", false)
+            $.ajax({
+                method: "POST",
+                url: "{{ route('get.module.types') }}",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    id: $(this).val(),
+                },
+                dataType: 'json',
+                success: function(response) {
+                    $("#module_qty").val(response.types.value);
+                },
+                error: function(error) {
+                    console.log(error.responseJSON.message);
+                }
+            })
+        } else {
+            $("#inverter_type_id").prop("disabled", true)
+        }
+    })
 </script>
 @endsection
