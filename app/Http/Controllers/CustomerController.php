@@ -92,10 +92,8 @@ class CustomerController extends Controller
                 "panel_qty" => $request->panel_qty,
                 "inverter_type_id" => $request->inverter_type_id,
                 "module_type_id" => $request->module_type_id,
-                "battery_type_id" => $request->battery_type_id,
                 "inverter_qty" => $request->inverter_qty,
-                "module_qty" => $request->module_qty,
-                "battery_qty" => $request->battery_qty,
+                "module_value" => $request->module_qty,
                 "notes" => $request->notes,
             ]);
 

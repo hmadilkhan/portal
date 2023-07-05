@@ -26,10 +26,8 @@ return new class extends Migration
             $table->string("panel_qty");
             $table->integer("inverter_type_id");
             $table->integer("module_type_id");
-            $table->integer("battery_type_id");
             $table->integer("inverter_qty");
-            $table->integer("module_qty");
-            $table->integer("battery_qty");
+            $table->integer("module_value");
             $table->longText("notes")->nullable();
             $table->softDeletes();
             $table->timestamps();
