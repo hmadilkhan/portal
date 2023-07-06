@@ -140,7 +140,6 @@ class ProjectController extends Controller
 
     public function projectMove(Request $request)
     {
-        return $request;
         $validated = $request->validate([
             'stage' => 'required',
             'forward' => 'required_if:stage,forward|integer',
