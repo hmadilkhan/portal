@@ -1,6 +1,6 @@
 <!-- <div class=" fade"> -->
 <div class="row g-3 gy-5 py-3 row-deck">
-    <div class="row g-3 row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-2 row-deck py-1 pb-4">
+    <div class="row g-3 row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-3 row-cols-xl-3 row-cols-xxl-3 row-deck py-1 pb-4">
     @foreach($projects as $project)
         <div class="col">
             <div class="card teacher-card">
@@ -82,8 +82,8 @@
                             <p>{{$project->description}}</p>
                         </div>
                         <div class="d-flex flex-wrap align-items-center ct-btn-set">
-                            <a href="chat.html" class="btn btn-dark btn-sm mt-1 me-1"><i class="icofont-ui-text-chat me-2 fs-6"></i>Chat</a>
-                            <a href="profile.html" class="btn btn-dark btn-sm mt-1"><i class="icofont-invisible me-2 fs-6"></i>Profile</a>
+                            <!-- <a href="chat.html" class="btn btn-dark btn-sm mt-1 me-1"><i class="icofont-ui-text-chat me-2 fs-6"></i>Chat</a> -->
+                            <a href="{{route('projects.show',$project->id)}}" class="btn btn-dark btn-sm mt-1"><i class="icofont-eye me-2 fs-6"></i>Details</a>
                         </div>
                     </div>
                 </div>
